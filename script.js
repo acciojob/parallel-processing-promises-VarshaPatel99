@@ -8,7 +8,6 @@ const output = document.getElementById("output");
 const errorDiv = document.getElementById("error");
 const loadingDiv = document.getElementById("loading");
 
-// function to load a single image
 function downloadImage(url) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -21,20 +20,14 @@ function downloadImage(url) {
 }
 
 function downloadImages() {
-  // show loading spinner
   loadingDiv.style.display = "block";
   errorDiv.innerText = "";
   output.innerHTML = "";
 
-  const promises = imageUrls.map((url) => downloadImage(url));
-
-  Promise.all(promises)
+  Promise.all(imageUrls.map(downloadImage))
     .then((images) => {
       loadingDiv.style.display = "none";
-
-      images.forEach((img) => {
-        output.appendChild(img);
-      });
+      images.forEach(img => output.appendChild(img));
     })
     .catch((err) => {
       loadingDiv.style.display = "none";
@@ -42,5 +35,4 @@ function downloadImages() {
     });
 }
 
-// call function
 downloadImages();
